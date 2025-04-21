@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+const { ObjectId } = Schema.Types;
 
 const commentSchema = new Schema(
   {
@@ -8,7 +9,7 @@ const commentSchema = new Schema(
     parentCommentId: ObjectId,
   },
   {
-    timestamps: { createdAt },
+    timestamps: true,
   }
 );
 

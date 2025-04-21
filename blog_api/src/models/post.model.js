@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+const { ObjectId } = Schema.Types;
 
 const postSchema = new Schema(
   {
@@ -10,7 +11,7 @@ const postSchema = new Schema(
     tags: [String],
   },
   {
-    timestamps: { createdAt },
+    timestamps: true,
   }
 );
 
