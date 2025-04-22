@@ -1,11 +1,15 @@
 import { Router } from "express";
+
 import { authController } from "@/controllers";
+import { authenticate } from "@/middlewares";
 
-const AuthRouter = Router();
+const authRouter = Router();
 
-AuthRouter.route("/login").post(authController.login);
-AuthRouter.route("/signup").post(authController.signup);
-AuthRouter.route("/changePassword").post(authController.changePassword);
-AuthRouter.route("/resetPassword").post(authController.resetPassword);
+authRouter.route("/login").post(authController.login);
+// authRouter.route("/signup").post(authController.signup);
+authRouter
+  .route("/change-password")
+  .post(authenticate, authController.changePassword);
+// authRouter.route("/reset-password").post(authController.resetPassword);
 
-export default AuthRouter;
+export default authRouter;

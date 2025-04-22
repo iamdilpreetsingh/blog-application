@@ -1,8 +1,8 @@
 import { Router } from "express";
-import AuthRouter from "@/routes/api/v1/auth";
+import authRouter from "@/routes/api/v1/auth";
 
 const v1Router = Router();
-const routes = new Map(["/auth", AuthRouter]);
+const routes = new Map(["/auth", authRouter]);
 routes.forEach((path, router) => {
   v1Router.use(path, router);
 });

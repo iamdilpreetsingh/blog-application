@@ -1,7 +1,6 @@
 import { authValidator } from "@/validators";
-import { authRepository } from "@/repositories";
 import { authService } from "@/services";
-import { UserAuthTokenOptions } from "@/utils/auth.utils";
+import { userAuthTokenOptions } from "@/utils/auth.utils";
 
 export default {
   login: async (request, response) => {
@@ -12,46 +11,23 @@ export default {
           convert: true,
         }
       );
-      const { email, password } = validatedData;
 
-      const user = authRepository.findUser(email);
-      if (!user) {
-        return response.status(401).json({
-          success: false,
-          message: "User is not registered",
-        });
-      }
-
-      const isMatch = authService.validateUser(password, user.password);
-      if (!isMatch) {
-        return response.status(401).json({
-          success: false,
-          message: "Incorrect password",
-        });
-      }
-
-      const token = authService.generateUserToken(user);
-      const userObj = user.toObject();
-      delete userObj.password;
+      const userData = await authService.login(validatedData);
 
       return response
-        .cookie("access_token", token, UserAuthTokenOptions)
+        .cookie("access_token", userData.token, userAuthTokenOptions())
         .status(200)
-        .json({
-          success: true,
-          user: userObj,
-          message: "User logged in successfully",
-        });
+        .json(userData.user);
     } catch (err) {
       console.error(err);
-      return response.status(500).json({
-        success: false,
-        message: "Something went wrong, try again",
+      return response.status(err.status || 500).json({
+        message: err.message || "Something went wrong, try again",
       });
     }
   },
-
-  signup: async () => {},
+  signup: async (request, response) => {
+    try{}catch(){}
+  },
   changePassword: async () => {},
   responseetPassword: async () => {},
 };
